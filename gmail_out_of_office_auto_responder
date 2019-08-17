@@ -1,0 +1,20 @@
+var GLOBAL = {
+  calendarId : "fillintheblankwithgooglecalid@group.calendar.google.com" //refers to google calendar where you put an event any day that you are out of office
+}
+
+function autoReply() {
+var interval = 5;    //  if the script runs every 5 minutes; change otherwise, set up timed trigger to run every 5 mins
+  var date = new Date(); //get todays date
+  var events = CalendarApp.getCalendarById(GLOBAL.calendarId).getEventsForDay(date); //get calendar events happening today
+  if (events.length > 0) {
+    var timeFrom = Math.floor(date.valueOf()/1000) - 60 * interval;
+    var threads = GmailApp.search('is:inbox after:' + timeFrom);
+    for (var i = 0; i < threads.length; i++) {
+      if (threads[i].isUnread()){
+      threads[i].reply("Hi! I'm not in the office presently, but I will reply to your email upon my return. - You");
+      threads[i].markRead();
+      threads[i].markImportant();
+      }
+    }
+  }
+}
