@@ -1,13 +1,9 @@
 // This script, when set up with a timed trigger, checks a google calendar where you put an event on days that you will be off. On days that have the 'off' event, it will reply to all new emails, and then mark them as read and important for you to respond to later.
 
-var GLOBAL = {
-  calendarId : "fillintheblankwithgooglecalid@group.calendar.google.com" //refers to google calendar where you put an event any day that you are out of office
-}
-
 function autoReply() {
 var interval = 5;    //  if the script runs every 5 minutes; change otherwise, set up timed trigger to run every 5 mins
   var date = new Date(); //get todays date
-  var events = CalendarApp.getCalendarById(GLOBAL.calendarId).getEventsForDay(date); //get calendar events happening today
+  var events = CalendarApp.getCalendarById('fillintheblankwithgooglecalid@group.calendar.google.com').getEventsForDay(date); //get calendar events happening today
   if (events.length > 0) {
     var timeFrom = Math.floor(date.valueOf()/1000) - 60 * interval;
     var threads = GmailApp.search('is:inbox after:' + timeFrom);
